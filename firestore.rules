@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    // The catalogue is public and read-only. It is managed from the admin side.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Each user owns a private wishlist: users/{uid}/wishlist/{productId}
+    match /users/{userId}/wishlist/{productId} {
+      allow read, delete: if isOwner(userId);
+
+      allow create: if isOwner(userId)
+        && exists(/databases/$(database)/documents/products/$(productId))
+        && request.resource.data.keys().hasOnly(['name', 'price', 'note', 'addedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.price is number
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 140
+        && request.resource.data.addedAt == request.time;
+
+      // Only the note can be edited after an item is saved.
+      allow update: if isOwner(userId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['note'])
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 140;
+    }
+  }
+}

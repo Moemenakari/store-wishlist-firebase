@@ -1,0 +1,18 @@
+{
+  "name": "store-wishlist-firebase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cedar Market wishlist: Firebase Auth, Firestore, security rules and Hosting",
+  "type": "module",
+  "scripts": {
+    "start": "firebase emulators:exec --ui \"node scripts/seed.js && node scripts/wait.js\"",
+    "seed": "node scripts/seed.js",
+    "test": "firebase emulators:exec --only firestore \"node --test test/*.test.js\"",
+    "deploy": "firebase deploy"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^3.0.4",
+    "firebase": "^10.14.1",
+    "firebase-tools": "^13.29.1"
+  }
+}

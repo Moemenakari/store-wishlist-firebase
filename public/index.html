@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cedar Market · Wishlist</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">Cedar Market</span>
+    <div id="account" class="account" hidden>
+      <span id="account-email"></span>
+      <button id="sign-out" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h1>Catalogue</h1>
+      <ul id="products" class="grid" aria-live="polite"></ul>
+    </section>
+
+    <aside class="panel">
+      <h2>My wishlist <span id="count" class="count"></span></h2>
+
+      <form id="auth-form" class="auth" hidden>
+        <p>Sign in to save products. New here? The same form creates your account.</p>
+        <label>Email <input id="email" type="email" autocomplete="email" required></label>
+        <label>Password <input id="password" type="password" autocomplete="current-password" minlength="6" required></label>
+        <button class="primary" type="submit">Sign in / Register</button>
+        <button id="guest" type="button">Continue as guest</button>
+        <p id="auth-error" class="error" role="alert"></p>
+      </form>
+
+      <ul id="wishlist" class="wishlist" aria-live="polite"></ul>
+      <p id="total" class="total"></p>
+    </aside>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
